@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSignData } from "../../redux/actions/signdataaction";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import DisplayImg from "../../assests/displayGif.gif";
+import { serverTimestamp } from "firebase/firestore";
 
 /* 🧹 Filter only specific warnings — keeps console clean */
 const originalWarn = console.warn;
@@ -150,10 +151,21 @@ const Detect = () => {
       const secondsSpent = Math.round((endTime - startTime) / 1000);
 
       if (recordedSequenceRef.current.length > 0) {
-        const signsPerformed = recordedSequenceRef.current.map((sign) => ({
-          SignDetected: sign,
-          count: 1,
-        }));
+        const signCountMap = {};
+
+        recordedSequenceRef.current.forEach((sign) => {
+          if (!sign || sign.trim() === "") return; // skip blank signs
+          if (!signCountMap[sign]) signCountMap[sign] = 0;
+          signCountMap[sign] += 1;
+        });
+
+        const signsPerformed = Object.entries(signCountMap).map(
+          ([sign, count]) => ({
+            SignDetected: sign,
+            count: count,
+            timestamp: serverTimestamp(),
+          })
+        );
 
         const sessionData = {
           id: uuidv4(),

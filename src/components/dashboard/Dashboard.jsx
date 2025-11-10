@@ -9,8 +9,27 @@ import { useNavigate } from "react-router-dom";
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import TimeSpentChart from "./ChartComp";
 
-import TimeSpentChart from "./Chart/ChartComp";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -40,6 +59,7 @@ const Dashboard = () => {
 
   const newData = [];
   for (let i = 0; i < list.length; i++) {
+    if (!list[i].SignDetected || list[i].SignDetected === "") continue; // skip empty signs
     const foundIndex = newData.findIndex(
       (d) => d.SignDetected === list[i].SignDetected
     );
@@ -60,6 +80,62 @@ const Dashboard = () => {
     minutes: Math.round((item.timeSpent || 0) / 60),
   }));
 
+  // ---------------- Weekly Progress Data ----------------
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 6); // last 7 days including today
+
+  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const today = new Date();
+  const last7Days = Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() - (6 - i));
+    return d;
+  });
+
+  const weeklyData = last7Days.map((day) => {
+    // Filter sessions for this day
+    const daySessions = signDataList.filter((item) => {
+      const itemDate = new Date(item.createdAt);
+      return (
+        itemDate.getFullYear() === day.getFullYear() &&
+        itemDate.getMonth() === day.getMonth() &&
+        itemDate.getDate() === day.getDate()
+      );
+    });
+    // Sum total signs
+    const totalSigns = daySessions.reduce(
+      (sum, s) =>
+        sum + s.signsPerformed.reduce((acc, sign) => acc + sign.count, 0),
+      0
+    );
+    return totalSigns;
+  });
+
+  const chartData = {
+    labels: last7Days.map((d) => weekDays[d.getDay()]),
+    datasets: [
+      {
+        label: "Signs Practiced",
+        data: weeklyData,
+        backgroundColor: "rgba(53, 162, 235, 0.6)",
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: "Weekly Signs Practiced" },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        stepSize: 1,
+      },
+    },
+  };
+
   // ---------------- PDF Download ----------------
   const handleDownloadReport = async () => {
     const pdf = new jsPDF("p", "mm", "a4");
@@ -77,6 +153,7 @@ const Dashboard = () => {
 
     pdf.save("Learning_Progress_Report.pdf");
   };
+
   const user = useSelector((state) => state.auth?.user);
   const firstName = user?.username
     ? user.username.split(" ")[0]
@@ -89,12 +166,42 @@ const Dashboard = () => {
       {!(loading || authLoader) ? (
         signDataList.length > 0 ? (
           <>
-            <h1 className="dashboard-welcome">Welcome, {firstName}!</h1>
-            <div className="signlang_dashboard-midsection">
-              {/* TABLE SECTION */}
-              <div className="signlang_sign-table" ref={reportRef}>
-                <h2 className="gradient__text">Your Most Practiced Signs</h2>
+            {/* Top section with welcome message and download button */}
+            <div style={{ position: "relative", marginBottom: "20px" }}>
+              <h1 className="dashboard-welcome" style={{ textAlign: "center" }}>
+                Welcome, {firstName}!
+              </h1>
+              <button
+                className="download-report-btn"
+                onClick={handleDownloadReport}
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: 0,
+                }}
+              >
+                Download Report (PDF)
+              </button>
+            </div>
 
+            <div
+              className="signlang_dashboard-midsection"
+              style={{
+                display: "flex",
+                gap: "20px",
+                flexWrap: "wrap",
+                alignItems: "flex-start",
+              }}
+            >
+              {/* ---------------- TABLE SECTION (LEFT) ---------------- */}
+              <div
+                className="signlang_sign-table"
+                ref={reportRef}
+                style={{ flex: 1, minWidth: "300px" }}
+              >
+                <h2 className="text-blue-950 font-extrabold text-lg text-center mb-5">
+                  Your Most Practiced Signs
+                </h2>
                 <table>
                   <thead>
                     <tr>
@@ -115,26 +222,49 @@ const Dashboard = () => {
                 </table>
               </div>
 
-              {/* TIME SPENT CHART */}
+              {/* ---------------- CHARTS SECTION (RIGHT) ---------------- */}
               <div
                 style={{
-                  flex: 2,
-                  minWidth: "400px",
+                  flex: 1,
+                  minWidth: "300px",
                   display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: "column",
+                  gap: "20px",
                 }}
               >
-                <TimeSpentChart signDataList={signDataList} />
-              </div>
+                {/* Weekly Progress Chart (Top) */}
+                <div
+                  className="ml-10"
+                  ref={chartRef}
+                  style={{ width: "100%", height: "250px" }}
+                >
+                  <Bar data={chartData} options={chartOptions} />
+                </div>
 
-              {/* DOWNLOAD BUTTON */}
-              <button
-                className="download-report-btn"
-                onClick={handleDownloadReport}
-              >
-                Download Report (PDF)
-              </button>
+                {/* Time Spent Chart (Bottom) */}
+                <div
+                  style={{
+                    flex: "0 0 auto",
+                    height: "200px", // smaller height
+                    width: "300px", // optional width limit
+                    display: "flex",
+                    flexDirection: "column", // stack title and chart
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    marginLeft: "60px",
+                    marginTop: "20px", // add space from above chart
+                    paddingTop: "10px", // extra padding for the title
+                    background: "#fff", // optional: separate visually
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <h3 style={{ marginBottom: "10px" }}>
+                    Time Spent Practicing
+                  </h3>
+                  <TimeSpentChart signDataList={signDataList} />
+                </div>
+              </div>
             </div>
           </>
         ) : (
