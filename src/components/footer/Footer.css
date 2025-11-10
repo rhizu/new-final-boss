@@ -1,0 +1,56 @@
+.signlang__footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 4rem;
+  background: linear-gradient(135deg, #0b1a3c, #102a68); /* dark blue gradient */
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+}
+
+.signlang__footer-logo img {
+  width: 100px;
+  height: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+}
+
+.signlang__footer-logo img:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+}
+
+.signlang__footer-copyright h3 {
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.signlang__footer-copyright h3 span {
+  color: #0b1a3c; /* golden yellow accent */
+  font-weight: 600;
+}
+
+/* Subtle divider line at the top */
+
+
+/* Mobile Responsive */
+@media screen and (max-width: 700px) {
+  .signlang__footer {
+    flex-direction: column;
+    padding: 1rem 0;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .signlang__footer-logo img {
+    width: 160px;
+  }
+}

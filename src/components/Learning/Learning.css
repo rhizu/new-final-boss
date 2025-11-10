@@ -1,0 +1,143 @@
+/* ===== General Layout ===== */
+.learn-page {
+  min-height: 100vh;
+  background: #ffffff;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 0.8s ease;
+}
+
+/* ===== Header ===== */
+.learn-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.learn-header h1 {
+  font-size: 2.8rem;
+  color: #0d47a1;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.learn-header p {
+  font-size: 1.15rem;
+  color: #546e7a;
+  margin-top: 0.5rem;
+}
+
+/* ===== Grid ===== */
+.sign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2.2rem;
+  width: 100%;
+  max-width: 1150px;
+  justify-items: center;
+}
+
+/* ===== Card Style ===== */
+.sign-card {
+  position: relative;
+  background: linear-gradient(145deg, #ffffff, #f3f7ff);
+  border-radius: 22px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  transition: all 0.35s ease;
+  border: 2px solid transparent;
+}
+
+.sign-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 28px rgba(13, 71, 161, 0.2);
+  border: 2px solid rgba(33, 150, 243, 0.25);
+}
+
+.sign-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(33,150,243,0.3), rgba(156,39,176,0.3));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.sign-card:hover::before {
+  opacity: 1;
+}
+
+/* ===== Image Section ===== */
+.sign-image-container {
+  width: 100%;
+  height: 220px;
+  background: #e8eaf6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sign-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* ensures no cropping */
+  border-bottom: 1px solid #ddd;
+  transition: transform 0.4s ease;
+}
+
+.sign-card:hover .sign-image {
+  transform: scale(1.08);
+}
+
+/* ===== Text Section ===== */
+.sign-info {
+  text-align: center;
+  padding: 1rem 1.2rem 1.4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.sign-letter {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0d47a1;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.sign-desc {
+  font-size: 1rem;
+  color: #37474f;
+  line-height: 1.5;
+}
+
+/* ===== Hover Glow ===== */
+.sign-card:hover .sign-letter {
+  color: #1565c0;
+  text-shadow: 0px 0px 10px rgba(21, 101, 192, 0.3);
+}
+
+/* ===== Fade In Animation ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .learn-header h1 {
+    font-size: 2.1rem;
+  }
+
+  .sign-desc {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,264 @@
+/* General Container */
+.signlang_dashboard-container {
+  font-family: var(--font-family);
+  background: #f9fafb; /* light gray professional background */
+  color: #1e3a8a; /* dark blue text for contrast */
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.download-report-btn {
+  margin-top: 20px;
+  padding: 10px 18px;
+  background: #6c47ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.time-chart-container {
+  width: 100%;
+  max-width: 700px;
+  margin-top: 40px;
+  padding: 20px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+}
+
+.dashboard-welcome {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+
+
+
+.download-report-btn:hover {
+  background: #5839d2;
+}
+
+
+/* Header Charts and Summary */
+.signlang_header-data {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 2rem auto;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1200px;
+}
+
+.signlang_header-data canvas {
+  height: 380px !important;
+  width: 600px !important;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(30, 58, 138, 0.15); /* subtle professional shadow */
+  padding: 1rem;
+}
+
+/* Leaderboard */
+.signlang_leader-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4rem;
+  gap: 2rem;
+}
+
+.signlang_leader-board .title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.signlang_toprank-box {
+  border: 1px solid rgba(30, 58, 138, 0.15);
+  width: 340px;
+  height: 240px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(30, 58, 138, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.signlang_toprank-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 35px rgba(30, 58, 138, 0.25);
+}
+
+.signlang_tank-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.8rem;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.signlang_tank-row h3,
+.signlang_tank-row h2 {
+  color: #1e3a8a;
+}
+
+/* Midsection Layout */
+.signlang_dashboard-midsection {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 4rem auto;
+  gap: 3rem;
+  max-width: 1200px;
+}
+
+/* Table Section */
+.signlang_sign-table {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+  width: 55%;
+  padding: 2rem;
+}
+
+.signlang_sign-table table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 18px;
+}
+
+.signlang_sign-table table tr .table-heading {
+  background-color: #e3f2fd; /* soft light blue */
+  color: #1e3a8a;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.signlang_sign-table th,
+.signlang_sign-table td {
+  border: 1px solid #f3f3f3;
+  padding: 1rem;
+  text-align: center;
+}
+
+.signlang_sign-table table .sign-row:nth-of-type(even) {
+  background-color: #f5f7fa; /* subtle alternating row */
+}
+
+/* Quotes Box */
+.signlang_quotes-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 28%;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+}
+
+.signlang_quotes-box div {
+  border: none;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.signlang_quotes-box blockquote {
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: #444;
+  position: relative;
+}
+
+.signlang_quotes-box blockquote::before {
+  content: "❝";
+  font-size: 3rem;
+  color: #1e3a8a;
+  position: absolute;
+  top: -10px;
+  left: -5px;
+}
+
+/* No Data Section */
+.signlang__nodata-cont {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 4rem auto;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.signlang__nodata-cont img {
+  width: 400px;
+  height: 400px;
+  border-radius: 12px;
+}
+
+.signlang__nodata-cont h3 {
+  font-size: 1.2rem;
+  text-align: justify;
+  color: #555;
+  width: 30%;
+  line-height: 1.8;
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 1050px) {
+  .signlang_header-data,
+  .signlang_dashboard-midsection {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .signlang_sign-table {
+    width: 80%;
+  }
+
+  .signlang_quotes-box {
+    width: 70%;
+  }
+
+  .signlang_toprank-box {
+    width: 90%;
+  }
+
+  .signlang__nodata-cont h3 {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .signlang_header-data canvas {
+    width: 90% !important;
+    height: auto !important;
+  }
+
+  .signlang_sign-table {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .signlang_quotes-box {
+    width: 90%;
+  }
+
+  .signlang__nodata-cont img {
+    width: 300px;
+    height: 300px;
+  }
+
+  .signlang__nodata-cont h3 {
+    width: 90%;
+  }
+}
