@@ -136,23 +136,7 @@ const Dashboard = () => {
     },
   };
 
-  // ---------------- PDF Download ----------------
-  const handleDownloadReport = async () => {
-    const pdf = new jsPDF("p", "mm", "a4");
 
-    // 1. Capture Table
-    const tableCanvas = await html2canvas(reportRef.current, { scale: 2 });
-    const tableImg = tableCanvas.toDataURL("image/png");
-    pdf.addImage(tableImg, "PNG", 10, 10, 190, 0);
-
-    // 2. Capture Chart (below table)
-    const chartCanvas = await html2canvas(chartRef.current, { scale: 2 });
-    const chartImg = chartCanvas.toDataURL("image/png");
-    pdf.addPage();
-    pdf.addImage(chartImg, "PNG", 10, 10, 190, 0);
-
-    pdf.save("Learning_Progress_Report.pdf");
-  };
 
   const user = useSelector((state) => state.auth?.user);
   const firstName = user?.username
@@ -171,17 +155,7 @@ const Dashboard = () => {
               <h1 className="dashboard-welcome" style={{ textAlign: "center" }}>
                 Welcome, {firstName}!
               </h1>
-              <button
-                className="download-report-btn"
-                onClick={handleDownloadReport}
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  top: 0,
-                }}
-              >
-                Download Report (PDF)
-              </button>
+
             </div>
 
             <div
@@ -260,7 +234,6 @@ const Dashboard = () => {
                   }}
                 >
                   <h3 style={{ marginBottom: "10px" }}>
-                    Time Spent Practicing
                   </h3>
                   <TimeSpentChart signDataList={signDataList} />
                 </div>

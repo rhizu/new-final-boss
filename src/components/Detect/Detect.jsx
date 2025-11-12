@@ -26,7 +26,7 @@ console.warn = (...args) => {
   originalWarn.apply(console, args);
 };
 
-const CONFIDENCE_THRESHOLD = 0.5; // Only record gestures with ≥90% confidence
+const CONFIDENCE_THRESHOLD = 0.65; // Only record gestures with ≥90% confidence
 let startTime = "";
 
 const Detect = () => {
@@ -162,8 +162,7 @@ const Detect = () => {
         const signsPerformed = Object.entries(signCountMap).map(
           ([sign, count]) => ({
             SignDetected: sign,
-            count: count,
-            timestamp: serverTimestamp(),
+            count: count
           })
         );
 

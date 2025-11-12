@@ -38,7 +38,7 @@ const Navbar = ({ notifyMsg }) => {
     <nav className="navbar-container">
       <div className="navbar-logo">
         <Link to="/">
-          <img src="/whitelogo.png" alt="SignLang Logo" className="logo" />
+          <img src="/logo.png" alt="SignLang Logo" className="logo" />
         </Link>
       </div>
 
